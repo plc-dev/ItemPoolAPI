@@ -1,3 +1,10 @@
+# Item Pool API
+
+## Item Pool Schema Considerations
+[Sheets-Link](https://docs.google.com/spreadsheets/d/1KoMPBrpQwkc_MqvEMF8f3S4bohgVmD9xl5TsExAQftQ/edit?gid=1482087079#gid=1482087079)
+
+## API Spec
+
 <table>
 <tr>
 <td> API-Route </td> <td> Payload structure  </td>  <td> Payload example </td>  <td> Procedure for specific payload example </td>

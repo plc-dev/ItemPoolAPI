@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Any, Dict, List, Union
+from typing import Any, Dict, List
 
 from fastapi import FastAPI
 from pydantic import BaseModel
@@ -11,38 +11,24 @@ app = FastAPI()
 # ENUMS
 # ------------------------
 class TaskType(str, Enum):
-    database = "database"
     sql = "sql"
 
 
 class MaterialType(str, Enum):
-    task_description = "task_description"
-    schema_description = "schema_description"
-    resolve_existing_material = "resolve_existing_material"
     database = "database"
-    sql = "sql"
 
 
 # ------------------------
 # REQUEST MODELS
 # ------------------------
-class TaskMaterialBase(BaseModel):
+class TaskMaterial(BaseModel):
     type: MaterialType
-
-
-class TaskMaterial(TaskMaterialBase):
     material_information: Dict[str, Any]
 
 
-class TaskMaterialReference(TaskMaterialBase):
-    id: str
-
-
-TaskMaterialType = Union[TaskMaterial, TaskMaterialReference]
-
-
 class Task(BaseModel):
-    task_material: List[TaskMaterialType]
+    task_description: str
+    task_material_ids: List[int]
     task_solutions: List[str]
 
 
@@ -61,9 +47,17 @@ class RegisterTaskMaterialResponse(BaseModel):
 class RegisterTaskResponse(BaseModel):
     status: str
     task_type: TaskType
-    materials: List[Dict[str, Any]]
+    material_ids: List[int]
     solutions: List[str]
     result: Dict[str, Any]
+
+
+# ------------------------
+# MOCK DATABASE
+# ------------------------
+materials_db: Dict[int, TaskMaterial] = {}
+tasks_db: List[Dict[str, Any]] = []
+material_counter = 0
 
 
 # ------------------------
@@ -71,15 +65,34 @@ class RegisterTaskResponse(BaseModel):
 # ------------------------
 @app.post("/registerTaskMaterial", response_model=RegisterTaskMaterialResponse)
 async def register_task_material(task_material: TaskMaterial):
-    # TODO: hier könnte das Material gespeichert werden
-    return RegisterTaskMaterialResponse(id=0)
+    global material_counter
+    material_counter += 1
+
+    materials_db[material_counter] = task_material
+
+    # Hier können Metadaten für die Filterung berechnet werden
+
+    return RegisterTaskMaterialResponse(id=material_counter)
 
 
 @app.post("/registerTask", response_model=RegisterTaskResponse)
 async def register_task(request: RegisterTaskRequest):
     task_type = request.type
-    materials = request.task.task_material
+    material_ids = request.task.task_material_ids
     solutions = request.task.task_solutions
+
+    # Hier können Metadaten für die Filterung berechnet werden
+
+    # Validate that all referenced IDs exist
+    missing_ids = [mid for mid in material_ids if mid not in materials_db]
+    if missing_ids:
+        return RegisterTaskResponse(
+            status="error",
+            task_type=task_type,
+            material_ids=material_ids,
+            solutions=solutions,
+            result={"error": f"Invalid material IDs: {missing_ids}"},
+        )
 
     match task_type:
         case TaskType.sql:
@@ -87,18 +100,21 @@ async def register_task(request: RegisterTaskRequest):
                 "note": "SQL task registered",
                 "solutions_count": len(solutions),
             }
-        case TaskType.database:
-            result = {
-                "note": "Database task registered",
-                "materials_count": len(materials),
-            }
         case _:
             result = {"note": "Unknown task type"}
+
+    # Store task
+    task_entry = {
+        "type": task_type,
+        "material_ids": material_ids,
+        "solutions": solutions,
+    }
+    tasks_db.append(task_entry)
 
     return RegisterTaskResponse(
         status="success",
         task_type=task_type,
-        materials=[m.dict() for m in materials],
+        material_ids=material_ids,
         solutions=solutions,
         result=result,
     )

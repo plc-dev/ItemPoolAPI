@@ -118,3 +118,14 @@ async def register_task(request: RegisterTaskRequest):
         solutions=solutions,
         result=result,
     )
+
+@app.get("/enums", summary="Get all enums for task and material types")
+def get_enums():
+    """
+    Returns the available task and material types for the frontend to use in dropdowns.
+    """
+    return {
+        "task_types": [t.value for t in TaskType],
+        "material_types": [m.value for m in MaterialType],
+    }
+

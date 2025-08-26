@@ -3,6 +3,30 @@
 ## Item Pool Schema Considerations
 [Sheets-Link](https://docs.google.com/spreadsheets/d/1KoMPBrpQwkc_MqvEMF8f3S4bohgVmD9xl5TsExAQftQ/edit?gid=1482087079#gid=1482087079)
 
+## API starten
+
+1. **Installation von `uv`**  
+   Anleitung: [uv Installation Guide](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer)
+
+2. **API starten**  
+   ```bash
+   uv run fastapi dev main.py
+   ```
+
+## ToDo's ItemPool
+- [ ] ENUM-Varianten der TaskType-Klasse sollten über HTTP GET abfragbar sein
+- [ ] ENUM-Varianten der MaterialType-Klasse sollten als Datenstruktur hinterlegt werden
+- [ ] material_information der Klasse TaskMaterial sollte validiert werden
+- [ ] task_solutions der Klasse Task ist von TaskType abhängig und sollte nicht nur ein String sein (ENUM-Lösung?)
+- [ ] Metadaten-Berechnung für register_task_material und register_task, die zur Filterung genutzt werden könnten
+- [ ] In registerTask kann direkt TaskMaterial angelegt werden, welches dann intern erstellt werden muss
+- [ ] Aufteilung der Datei in mehrere Teile: models.py, router.py, main.py (Hauptcode), controller.py (Anlegen von TaskMaterial, Berechnung der Metadaten etc.)
+- [ ] Anbindung einer echten Datenbank
+- [ ] Beispielanfragen für großes Meeting vorbereiten und vorstellen
+
+## Anforderungsspezifikationen
+- [ ] ...
+
 ## API Spec
 
 <table>

@@ -11,30 +11,34 @@ class SQLTaskHandler(TaskHandler):
         try:
             instruction_ids = self._register_materials(task.task_stimulus.instruction)
             problem_statement_ids = self._register_materials(task.task_stimulus.problem_statement)
-            schema_ids = self._register_materials(task.task_stimulus.schema)
+            schema_ids = self._register_materials(task.task_stimulus.db_schema)
             database_ids = self._register_materials(task.task_stimulus.database)
 
             stimulus_ids = {
-                instruction_ids: instruction_ids,
-                problem_statement_ids: problem_statement_ids,
-                schema_ids: schema_ids,
-                database_ids: database_ids
+                "instruction_ids": instruction_ids,
+                "problem_statement_ids": problem_statement_ids,
+                "schema_ids": schema_ids,
+                "database_ids": database_ids
             }
 
             query_ids = self._register_materials(task.task_solutions.query)
 
-            solutions_ids = {
-                query_ids: query_ids
+            solution_ids = {
+                "query_ids": query_ids
             }
+            
             return {
                 "status": ResponseStatus.success,
                 "stimulus_ids": stimulus_ids,
-                "solutions_ids": solutions_ids,
+                "solution_ids": solution_ids,
                 "result": ResponseResult(message = "Task successfully registered")
             }
 
         except Exception as e:
+            logging.getLogger("uvicorn.error").error(e)
             return {
                 "status": ResponseStatus.error,
-                "result": ResponseResult(message = str(e))
+                "result": ResponseResult(message = str(e)),
+                "stimulus_ids": [],
+                "solution_ids": []
             }

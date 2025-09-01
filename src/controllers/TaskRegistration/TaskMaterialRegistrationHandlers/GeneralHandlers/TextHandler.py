@@ -1,5 +1,5 @@
 from ..BaseHandler import TaskMaterialHandler
-from .....models.Task import TextTaskMaterial, Metadata
+from .....models.Task import TextTaskMaterial, TextMetadata
 
 from ....MetaDataInference.TextMetaDataInferenceHandlers.TextMetricsHandler import TextMetricsHandler
 
@@ -8,7 +8,7 @@ class TextMaterialHandler(TaskMaterialHandler):
         super().__init__(dao)
 
     # TODO: Specify TextMetadata type
-    def process_material(self, material: TextTaskMaterial) -> Metadata:
+    def process_material(self, material: TextTaskMaterial) -> TextMetadata:
         text_meta_data_inference_handler = TextMetricsHandler()
 
         meta_data = text_meta_data_inference_handler.infer_metadata(material.text)

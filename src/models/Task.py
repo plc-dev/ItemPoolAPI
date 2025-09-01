@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict
 from enum import Enum
-from typing import List, Union, Literal, Optional
+from typing import List, Union, Literal, Optional, Dict
 
 # ------------------------
 # BASE MODELS
@@ -78,8 +78,8 @@ class TaskRegistrationResponse(BaseModel):
     status: ResponseStatus
     id: int
     task_type: TaskType
-    stimulus_ids: List[int]
-    solution_ids: List[int]
+    stimulus_ids: Dict[str,List[int]]
+    solution_ids: Dict[str,List[int]]
     result: ResponseResult
 
 # ------------------------
@@ -87,6 +87,9 @@ class TaskRegistrationResponse(BaseModel):
 # ------------------------
 class TextTaskMaterial(TaskMaterial):
     text: str
+
+class TextMetadata(Metadata):
+    pass
 
 
 class InstructionalConstraint(BaseModel):
@@ -139,7 +142,7 @@ class SQLTaskStimulus(TaskStimulus):
     """
     instruction: List[TaskInstruction | int]
     problem_statement: List[TextTaskMaterial | int]
-    schema: SchemaMaterialRegistrationRequestObject | int
+    db_schema: SchemaMaterialRegistrationRequestObject | int
     database: DatabaseTaskMaterial | int
 
 class SQLTaskSolution(TaskSolutions):

@@ -2,6 +2,7 @@
 from ..models.Task import TaskMaterialRegistrationResponse, TaskRegistrationResponse, TaskRegistrationRequestObject, TaskMaterialRegistrationRequestObject
 from ..controllers.TaskRegistration.TaskRegistrationController import TaskRegistrationController, TaskMaterialRegistrationController
 from ..models.Task import TaskType, MaterialType, ResponseStatus, ResponseResult
+import logging
 from fastapi import APIRouter
 
 router = APIRouter()
@@ -35,4 +36,4 @@ async def register_task_route(request: TaskRegistrationRequestObject):
     controller = TaskRegistrationController()
     response = controller.register_task(request)
 
-    return TaskRegistrationResponse(*response, task_type=request.type)
+    return TaskRegistrationResponse(**response, task_type=request.type)

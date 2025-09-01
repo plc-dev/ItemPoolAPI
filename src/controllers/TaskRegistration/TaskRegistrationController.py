@@ -57,11 +57,11 @@ class TaskRegistrationController(Controller):
         task_type = request.type
 
         task_handler = self._select_task_handler(task_type)
-        processed_task = task_handler.process_task(request)
+        processed_task = task_handler.process_task(request.task)
 
         if processed_task["result"] == ResponseStatus.error:
             return processed_task
-
+        
         id = self._dao.store_task(processed_task)
 
-        return {**processed_task, id:id}
+        return {**processed_task, "id": id}

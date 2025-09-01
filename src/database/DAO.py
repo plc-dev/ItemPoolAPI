@@ -1,5 +1,6 @@
 from typing import Dict
 from ..models.Task import TaskMaterial, Task
+import logging
 
 class DAO:
     """
@@ -11,7 +12,7 @@ class DAO:
     """
     def __init__(self):
         self._materials_db: Dict[int, TaskMaterial] = {}
-        self._tasks_db: Dict[int, Task] = []
+        self._tasks_db: Dict[int, Task] = {}
         self._material_id_counter = 0
         self._task_id_counter = 0
 

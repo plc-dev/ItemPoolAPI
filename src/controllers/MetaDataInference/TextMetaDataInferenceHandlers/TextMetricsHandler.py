@@ -1,8 +1,9 @@
 from ..BaseMetaDataInferenceHandler import MetaDataInferenceHandler
+# import 
 
 class TextMetricsHandler(MetaDataInferenceHandler):
     """
-    Wraps the textmetrics python library and calculates all its available metrics for the passed text.
+    Wraps the textstat python library and calculates all its available metrics for the passed text.
     """
     def __init__(self):
         super().__init__()

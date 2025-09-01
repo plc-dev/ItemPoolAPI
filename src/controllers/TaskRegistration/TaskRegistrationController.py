@@ -59,10 +59,6 @@ class TaskRegistrationController(Controller):
         task_handler = self._select_task_handler(task_type)
         processed_task = task_handler.process_task(request)
 
-        logger = logging.getLogger('uvicorn.error')
-        logger.info("EORRR:")
-        logger.info(processed_task.keys())
-
         if processed_task["result"] == ResponseStatus.error:
             return processed_task
 

@@ -8,46 +8,33 @@ class SQLTaskHandler(TaskHandler):
         super().__init__(dao, task_material_controller)
 
     def process_task(self, task: SQLTask):
-        # try:
-            
-        logger = logging.getLogger('uvicorn.error')
-        logger.info("ERRRRRRRRORRR 1")
+        try:
+            instruction_ids = self._register_materials(task.task_stimulus.instruction)
+            problem_statement_ids = self._register_materials(task.task_stimulus.problem_statement)
+            schema_ids = self._register_materials(task.task_stimulus.schema)
+            database_ids = self._register_materials(task.task_stimulus.database)
 
-        instruction_ids = self._register_materials(task.task_stimulus.instruction)
-        logger.info("ERRRRRRRRORRR 2")
-        problem_statement_ids = self._register_materials(task.task_stimulus.problem_statement)
-        schema_ids = self._register_materials(task.task_stimulus.schema)
-        database_ids = self._register_materials(task.task_stimulus.database)
+            stimulus_ids = {
+                instruction_ids: instruction_ids,
+                problem_statement_ids: problem_statement_ids,
+                schema_ids: schema_ids,
+                database_ids: database_ids
+            }
 
-        stimulus_ids = {
-            instruction_ids: instruction_ids,
-            problem_statement_ids: problem_statement_ids,
-            schema_ids: schema_ids,
-            database_ids: database_ids
-        }
+            query_ids = self._register_materials(task.task_solutions.query)
 
-        query_ids = self._register_materials(task.task_solutions.query)
+            solutions_ids = {
+                query_ids: query_ids
+            }
+            return {
+                "status": ResponseStatus.success,
+                "stimulus_ids": stimulus_ids,
+                "solutions_ids": solutions_ids,
+                "result": ResponseResult(message = "Task successfully registered")
+            }
 
-        solutions_ids = {
-            query_ids: query_ids
-        }
-        
-        logger.info({
-            "status": ResponseStatus.success,
-            "stimulus_ids": stimulus_ids,
-            "solutions_ids": solutions_ids,
-            "result": ResponseResult(message = "Task successfully registered")
-        })
-        
-        return {
-            "status": ResponseStatus.success,
-            "stimulus_ids": stimulus_ids,
-            "solutions_ids": solutions_ids,
-            "result": ResponseResult(message = "Task successfully registered")
-        }
-
-        # except Exception as e:
-        #     return {
-        #         "status": ResponseStatus.error,
-        #         "result": ResponseResult(message = str(e))
-        #     }
+        except Exception as e:
+            return {
+                "status": ResponseStatus.error,
+                "result": ResponseResult(message = str(e))
+            }

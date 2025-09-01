@@ -30,11 +30,6 @@ class TaskHandler(ABC):
         This method registers any task material via the TaskMaterialRegistrationController.
         TODO: Wrap the registration of subsequent materials into a transaction that aborts on error to avoid partial write operations of materials which may be duplicated in follow up requests.
         """
-        
-        logger = logging.getLogger('uvicorn.error')
-        logger.info("ERR:")
-        logger.info(materials)
-
         material_ids = {}
         for material_name, id_or_material in materials.items():
             if self._is_id(id_or_material):

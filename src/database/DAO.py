@@ -23,7 +23,6 @@ class DAO:
     
     def store_task(self, task: Dict) -> int | None:
         self._material_id_counter = self._material_id_counter + 1
-        print(task)
 
         self._tasks_db[self._material_id_counter] = {
             "stimulus_ids": task["stimulus_ids"],

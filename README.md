@@ -11,7 +11,7 @@
 
 2. **API starten**
    ```bash
-   uv run fastapi dev main.py
+   uv run fastapi dev src/main.py
    ```
 
 ## **API Tests**
@@ -26,7 +26,10 @@
 - [x] material_information der Klasse TaskMaterial sollte validiert werden
 - [x] task_solutions der Klasse Task ist von TaskType abhängig und sollte nicht nur ein String sein (ENUM-Lösung?)
 - [ ] Metadaten-Berechnung für register_task_material und register_task, die zur Filterung genutzt werden könnten
-  - [x] Für Text, Queries, Schema, Datenbank
+  - [x] Für Text,
+  - [] Queries,
+  - [] Schema,
+  - [] Datenbank
 - [x] In registerTask kann direkt TaskMaterial angelegt werden, welches dann intern erstellt werden muss
 - [x] Aufteilung der Datei in mehrere Teile: models.py, router.py, main.py (Hauptcode), controller.py (Anlegen von TaskMaterial, Berechnung der Metadaten etc.)
 - [ ] Anbindung einer echten Datenbank

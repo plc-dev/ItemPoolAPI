@@ -1,0 +1,154 @@
+from pydantic import BaseModel, ConfigDict
+from enum import Enum
+from typing import List, Union, Literal, Optional
+
+# ------------------------
+# BASE MODELS
+# ------------------------
+class TaskType(str, Enum):
+    sql = "sql"
+
+class MaterialType(str, Enum):
+    database = "database"
+    query = "query"
+    problem_statement = "problem_statement"
+    schema = "schema"
+    text = "text"
+
+class Metadata(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+class TaskMaterial(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    metadata: Optional[Metadata]
+
+# ------------------------
+# ORIGIN TYPE
+# ------------------------
+# TODO: How to model the origin of a task (materials)?
+class Origin(BaseModel):
+    organisation: str
+    person: str
+    role: Literal["professor", "staff", "student"]
+
+
+# ------------------------
+# REQUEST MODELS
+# ------------------------
+class TaskMaterialRegistrationRequestObject(BaseModel):
+    type: MaterialType
+    material_information: TaskMaterial
+
+class SolutionRegistrationRequestObject(TaskMaterialRegistrationRequestObject):
+    # TODO: Think about design implications and potentially refactor. 
+    # For the current purposes, the solution may be the treated the same as other task-materials?
+    pass
+
+MaterialIdOrMaterialReqestObject = Union[int, TaskMaterialRegistrationRequestObject]
+
+class TaskStimulus(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+class TaskSolutions(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+class Task(BaseModel):
+    task_stimulus: TaskStimulus
+    task_solutions: TaskSolutions
+
+class TaskRegistrationRequestObject(BaseModel):
+    type: TaskType
+    task: Task
+
+# ------------------------
+# RESPONSE MODELS
+# ------------------------
+class TaskMaterialRegistrationResponse(BaseModel):
+    id: int
+
+class ResponseStatus(str, Enum):
+    success = "success"
+    error = "error"
+
+class ResponseResult(BaseModel):
+    message: str
+
+
+class TaskRegistrationResponse(BaseModel):
+    status: ResponseStatus
+    id: int
+    task_type: TaskType
+    stimulus_ids: List[int]
+    solution_ids: List[int]
+    result: ResponseResult
+
+# ------------------------
+# GENERAL TASK ELEMENTS
+# ------------------------
+class TextTaskMaterial(TaskMaterial):
+    text: str
+
+
+class InstructionalConstraint(BaseModel):
+    model_config = ConfigDict(extra="allow")
+    
+class TaskInstruction(TextTaskMaterial):
+    constraints: Optional[List[InstructionalConstraint]]
+
+class TextMaterialRegistrationRequestObject(BaseModel):
+    type: MaterialType.text
+    material_information: TextTaskMaterial | TaskInstruction
+
+# ------------------------
+# SQL TASK SPECIFIC ELEMENTS
+# ------------------------
+class DatabaseDialects(str, Enum):
+    postgres = "postgres"
+    sqlite = "sqlite"
+
+class QueryTaskMaterial(TaskMaterial):
+    query: str
+
+class QueryMaterialRegistrationRequestObject(BaseModel):
+    type: MaterialType.query
+    material_information: QueryTaskMaterial
+    dialect: DatabaseDialects
+
+class SchemaTaskMaterial(TaskMaterial):
+    # TODO: Specify further? Could be potentially a graph, a picture, a table, etc. (which technically can all be expressed as a string)
+    schema: str
+    name: str
+
+class SchemaMaterialRegistrationRequestObject(BaseModel):
+    type: MaterialType.schema
+    material_information: SchemaTaskMaterial
+
+class DatabaseTaskMaterial(TaskMaterial):
+    database: str
+    name: str
+    dialect: DatabaseDialects
+
+class DatabaseRegistrationRequestObject(BaseModel):
+    type: MaterialType.database
+    material_information: DatabaseTaskMaterial
+
+
+class SQLTaskStimulus(TaskStimulus):
+    """
+    Stimulus for a task, in which a learner is instructed to write an SQL-query that matches a natural-language problem statement.
+    """
+    instruction: List[TaskInstruction | int]
+    problem_statement: List[TextTaskMaterial | int]
+    schema: SchemaMaterialRegistrationRequestObject | int
+    database: DatabaseTaskMaterial | int
+
+class SQLTaskSolution(TaskSolutions):
+    query: List[QueryTaskMaterial]
+
+class SQLTask(Task):
+    task_stimulus: SQLTaskStimulus
+    task_solutions: SQLTaskSolution
+
+class SQLTaskRegistrationRequestObject(TaskRegistrationRequestObject):
+    type: TaskType.sql
+    task: SQLTask

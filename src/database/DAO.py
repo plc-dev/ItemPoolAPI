@@ -23,14 +23,14 @@ class DAO:
         return self._material_id_counter
     
     def store_task(self, task: Dict) -> int | None:
-        self._material_id_counter = self._material_id_counter + 1
+        self._task_id_counter = self._task_id_counter + 1
 
-        self._tasks_db[self._material_id_counter] = {
+        self._tasks_db[self._task_id_counter] = {
             "stimulus_ids": task["stimulus_ids"],
             "solution_ids":task["solution_ids"]
         }
 
-        return self._material_id_counter
+        return self._task_id_counter
     
     def get_task_material(self, id: int) -> int | None:
         if id in self._materials_db:

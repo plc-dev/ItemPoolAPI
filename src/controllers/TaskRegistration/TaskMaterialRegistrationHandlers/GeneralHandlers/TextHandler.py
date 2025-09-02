@@ -7,7 +7,6 @@ class TextMaterialHandler(TaskMaterialHandler):
     def __init__(self, dao):
         super().__init__(dao)
 
-    # TODO: Specify TextMetadata type
     def process_material(self, material: TextTaskMaterial) -> TextMetadata:
         text_meta_data_inference_handler = TextMetricsHandler()
 

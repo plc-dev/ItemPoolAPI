@@ -89,7 +89,22 @@ class TextTaskMaterial(TaskMaterial):
     text: str
 
 class TextMetadata(Metadata):
-    pass
+    flesch_reading_ease: float
+    flesch_kincaid_grade: float
+    smog_index: float
+    coleman_liau_index: float
+    automated_readability_index: float
+    dale_chall_readability_score: float
+    difficult_words: float
+    linsear_write_formula: float
+    gunning_fog: float
+    text_standard: float
+    fernandez_huerta: float
+    szigriszt_pazos: float
+    gutierrez_polini: float
+    crawford: float
+    gulpease_index: float
+    osman: float
 
 
 class InstructionalConstraint(BaseModel):
@@ -109,13 +124,17 @@ class DatabaseDialects(str, Enum):
     postgres = "postgres"
     sqlite = "sqlite"
 
+
+class QueryMetadata(Metadata):
+    pass
 class QueryTaskMaterial(TaskMaterial):
     query: str
+    dialect: DatabaseDialects
+    metadata: Optional[QueryMetadata]
 
 class QueryMaterialRegistrationRequestObject(BaseModel):
     type: MaterialType.query
     material_information: QueryTaskMaterial
-    dialect: DatabaseDialects
 
 class SchemaTaskMaterial(TaskMaterial):
     # TODO: Specify further? Could be potentially a graph, a picture, a table, etc. (which technically can all be expressed as a string)

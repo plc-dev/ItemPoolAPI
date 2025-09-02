@@ -28,8 +28,8 @@
 - [ ] Metadaten-Berechnung für register_task_material und register_task, die zur Filterung genutzt werden könnten
   - [x] Für Text,
   - [ ] Queries,
-  - [ ] Schema,
-  - [ ] Datenbank
+  - [ ] Schema -> Notation? (Graphviz/DOT = string),
+  - [ ] Datenbank -> Format? (Dump? CREATE-query?)
 - [x] In registerTask kann direkt TaskMaterial angelegt werden, welches dann intern erstellt werden muss
 - [x] Aufteilung der Datei in mehrere Teile: models.py, router.py, main.py (Hauptcode), controller.py (Anlegen von TaskMaterial, Berechnung der Metadaten etc.)
 - [ ] Anbindung einer echten Datenbank

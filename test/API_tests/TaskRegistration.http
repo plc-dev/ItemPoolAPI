@@ -17,7 +17,6 @@ POST http://127.0.0.1:8000/registerTaskMaterial
 }
 
 ###
-# TODO: Fix task creation handling - currently seems to fail silently when calling the _register_materials of the BaseHandler parent class in the SQLTaskHandler.
 POST http://127.0.0.1:8000/registerTask
 
 {
@@ -63,7 +62,8 @@ POST http://127.0.0.1:8000/registerTask
             "query": [{
                 "type": "query",
                 "material_information": {
-                    "query": "SELECT * FROM test;",
+                    "query": "SELECT a, b, sum(a) FROM test;",
+                    "dialect": "postgres",
                     "metadata": {}
                 }
             }]

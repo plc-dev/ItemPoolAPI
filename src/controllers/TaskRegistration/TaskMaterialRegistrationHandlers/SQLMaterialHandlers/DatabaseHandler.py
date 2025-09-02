@@ -3,11 +3,11 @@ from .....models.Task import DatabaseTaskMaterial, Metadata
 
 from ....MetaDataInference.SQLDataInferenceHandlers.DatabaseMetaDataInferenceHandler import DatabaseMetricsHandler
 
-class TextMaterialHandler(TaskMaterialHandler):
+class DatabaseMaterialHandler(TaskMaterialHandler):
     def __init__(self, dao):
         super().__init__(dao)
 
-    # TODO: Specify TextMetadata type
+    # TODO: Specify DatabaseMetadata type
     def process_material(self, material: DatabaseTaskMaterial) -> Metadata:
         database_meta_data_inference_handler = DatabaseMetricsHandler()
 

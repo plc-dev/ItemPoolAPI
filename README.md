@@ -1,7 +1,43 @@
 # Item Pool API
 
 ## Item Pool Schema Considerations
+
 [Sheets-Link](https://docs.google.com/spreadsheets/d/1KoMPBrpQwkc_MqvEMF8f3S4bohgVmD9xl5TsExAQftQ/edit?gid=1482087079#gid=1482087079)
+
+## API starten
+
+1. **Installation von `uv`**  
+   Anleitung: [uv Installation Guide](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer)
+
+2. **API starten**
+   ```bash
+   uv run fastapi dev src/main.py
+   ```
+
+## **API Tests**
+
+    API tests are implemented via HTTP Files in the "tests" directory.
+    When using VSCode as an IDE, the REST Client extension is recommended.
+
+## ToDo's ItemPool
+
+- [x] ENUM-Varianten der TaskType-Klasse sollten über HTTP GET abfragbar sein
+- [x] ENUM-Varianten der MaterialType-Klasse sollten als Datenstruktur hinterlegt werden
+- [x] material_information der Klasse TaskMaterial sollte validiert werden
+- [x] task_solutions der Klasse Task ist von TaskType abhängig und sollte nicht nur ein String sein (ENUM-Lösung?)
+- [ ] Metadaten-Berechnung für register_task_material und register_task, die zur Filterung genutzt werden könnten
+  - [x] Für Text,
+  - [ ] Queries,
+  - [ ] Schema -> (Graphviz/DOT),
+  - [ ] Datenbank -> (CREATE-query - Postgres/Oracle)
+- [x] In registerTask kann direkt TaskMaterial angelegt werden, welches dann intern erstellt werden muss
+- [x] Aufteilung der Datei in mehrere Teile: models.py, router.py, main.py (Hauptcode), controller.py (Anlegen von TaskMaterial, Berechnung der Metadaten etc.)
+- [ ] Anbindung einer echten Datenbank (MongoDB)
+- [x] Beispielanfragen für großes Meeting vorbereiten und vorstellen
+
+## Anforderungsspezifikationen
+
+- [ ] ...
 
 ## API Spec
 
@@ -24,7 +60,7 @@
 
 </td>
 
-<td> 
+<td>
 
 ```json
 {
@@ -64,7 +100,7 @@
 ```
 
 </td>
-<td> 
+<td>
 
 ```json
 {
@@ -88,20 +124,18 @@
 				"id": "id_of_hotel-database"
 			}
 		],
-		"task_solutions": [
-			"SELECT foo FROM bar;"
-		]
+		"task_solutions": ["SELECT foo FROM bar;"]
 	}
 }
 ```
 
 </td>
-<td> 
+<td>
 
-  - for material in task_material registerTaskMaterial(material)
-    - computeMaterialMetaData(material_id) -> materialMetaData
-      - storeMaterialMetaData(materialMetaData) -> void
-  
+- for material in task_material registerTaskMaterial(material)
+  - computeMaterialMetaData(material_id) -> materialMetaData
+    - storeMaterialMetaData(materialMetaData) -> void
+
 </td>
 </tr>
 
@@ -123,28 +157,26 @@ Potential exchange format, of which sections serve as a potential payload format
 			"creator": "Max",
 			"university": "THM",
 
-            "computedFilterablePropeties": {
-                "tableAmountInSchema": 4,
-                "amountOfForeignKeys": 3,
-                "amountOfWeakEntities": 3,
+			"computedFilterablePropeties": {
+				"tableAmountInSchema": 4,
+				"amountOfForeignKeys": 3,
+				"amountOfWeakEntities": 3,
 
-                "SQLConcepts": ["SELECT", "GROUP BY", "SUBQUERY"]
-            }
+				"SQLConcepts": ["SELECT", "GROUP BY", "SUBQUERY"]
+			}
 		},
 		"task_body": {
 			"task_description": "Liste aller Mitarbeiter aus dem Vertrieb, mit PNr. und Name, aufsteigend sortiert nach Namen",
-            "show_tables": {
-                "tables": ["mitarbeiter"]
-            },
+			"show_tables": {
+				"tables": ["mitarbeiter"]
+			},
 			"db": {
 				"createDB": "CREATE ",
 				"dbDump": "link_to_dump",
 				"dbFlavor": "postgres"
 			}
 		},
-        "task_solutions": [
-            "SELECT bla ..."
-        ]
+		"task_solutions": ["SELECT bla ..."]
 	},
 	"2": {
 		"task_head": {
@@ -161,10 +193,7 @@ Potential exchange format, of which sections serve as a potential payload format
 				"dbFlavor": "mysql"
 			}
 		},
-        "task_solutions": [
-            "a->b, "
-        ]
+		"task_solutions": ["a->b, "]
 	}
 }
-
 ```

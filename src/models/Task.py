@@ -161,7 +161,7 @@ class SQLTaskStimulus(TaskStimulus):
     """
     instruction: List[TaskInstruction | int]
     problem_statement: List[TextTaskMaterial | int]
-    db_schema: SchemaMaterialRegistrationRequestObject | int
+    db_schema: SchemaTaskMaterial | int
     database: DatabaseTaskMaterial | int
 
 class SQLTaskSolution(TaskSolutions):

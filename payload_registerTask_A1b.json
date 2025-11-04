@@ -1,0 +1,49 @@
+{
+  "type": "sql",
+  "task": {
+    "task_stimulus": {
+      "instruction": [
+        {
+          "type": "text",
+          "material_information": {
+            "text": "Aufgabe 1b — Formulieren Sie eine SQL-Query, die die folgende Bedingung erfüllt."
+          }
+        }
+      ],
+      "problem_statement": [
+        {
+          "type": "text",
+          "material_information": {
+            "text": "Zeigen Sie die Artikel, die 'Saft' im Artikelnamen haben."
+          }
+        }
+      ],
+      "db_schema": {
+        "type": "schema",
+        "material_information": {
+          "schema": "",
+          "name": "Buchhandlung"
+        }
+      },
+      "database": {
+        "type": "database",
+        "material_information": {
+          "database": "",
+          "name": "db_A1_b",
+          "dialect": "oracle"
+        }
+      }
+    },
+    "task_solutions": {
+      "query": [
+        {
+          "type": "query",
+          "material_information": {
+            "query": "SELECT Artikelname FROM Artikel WHERE UPPER(Artikelname) LIKE '%SAFT%';",
+            "dialect": "oracle"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,6 +1,9 @@
+from __future__ import annotations
+
 from pydantic import BaseModel, ConfigDict
 from enum import Enum
 from typing import List, Union, Literal, Optional, Dict
+
 
 # ------------------------
 # BASE MODELS
@@ -20,7 +23,7 @@ class Metadata(BaseModel):
 
 class TaskMaterial(BaseModel):
     model_config = ConfigDict(extra="allow")
-    metadata: Optional[Metadata]
+    metadata: Optional[Metadata] = None
 
 # ------------------------
 # ORIGIN TYPE
@@ -114,7 +117,7 @@ class TaskInstruction(TextTaskMaterial):
     constraints: Optional[List[InstructionalConstraint]]
 
 class TextMaterialRegistrationRequestObject(BaseModel):
-    type: MaterialType.text
+    type: MaterialType
     material_information: TextTaskMaterial | TaskInstruction
 
 # ------------------------
@@ -123,6 +126,7 @@ class TextMaterialRegistrationRequestObject(BaseModel):
 class DatabaseDialects(str, Enum):
     postgres = "postgres"
     sqlite = "sqlite"
+    oracle = "oracle"
 
 
 class QueryMetadata(Metadata):
@@ -130,10 +134,10 @@ class QueryMetadata(Metadata):
 class QueryTaskMaterial(TaskMaterial):
     query: str
     dialect: DatabaseDialects
-    metadata: Optional[QueryMetadata]
+    metadata: Optional[QueryMetadata] = None
 
 class QueryMaterialRegistrationRequestObject(BaseModel):
-    type: MaterialType.query
+    type: MaterialType
     material_information: QueryTaskMaterial
 
 class SchemaTaskMaterial(TaskMaterial):
@@ -142,7 +146,7 @@ class SchemaTaskMaterial(TaskMaterial):
     name: str
 
 class SchemaMaterialRegistrationRequestObject(BaseModel):
-    type: MaterialType.schema
+    type: MaterialType
     material_information: SchemaTaskMaterial
 
 class DatabaseTaskMaterial(TaskMaterial):
@@ -151,7 +155,7 @@ class DatabaseTaskMaterial(TaskMaterial):
     dialect: DatabaseDialects
 
 class DatabaseRegistrationRequestObject(BaseModel):
-    type: MaterialType.database
+    type: MaterialType
     material_information: DatabaseTaskMaterial
 
 
@@ -161,6 +165,7 @@ class SQLTaskStimulus(TaskStimulus):
     """
     instruction: List[TaskInstruction | int]
     problem_statement: List[TextTaskMaterial | int]
+    #db_schema: SchemaMaterialRegistrationRequestObject | int
     db_schema: SchemaTaskMaterial | int
     database: DatabaseTaskMaterial | int
 
@@ -172,5 +177,15 @@ class SQLTask(Task):
     task_solutions: SQLTaskSolution
 
 class SQLTaskRegistrationRequestObject(TaskRegistrationRequestObject):
-    type: TaskType.sql
+    type: TaskType
     task: SQLTask
+
+
+# --- ensure forward ref resolution (pydantic v2) ---
+TextMaterialRegistrationRequestObject.model_rebuild()
+QueryMaterialRegistrationRequestObject.model_rebuild()
+SchemaMaterialRegistrationRequestObject.model_rebuild()
+DatabaseRegistrationRequestObject.model_rebuild()
+
+SQLTaskRegistrationRequestObject.model_rebuild()
+TaskRegistrationRequestObject.model_rebuild()

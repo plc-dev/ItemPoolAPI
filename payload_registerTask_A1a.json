@@ -1,0 +1,56 @@
+{
+  "type": "sql",
+  "task": {
+    "task_stimulus": {
+      "instruction": [
+        {
+          "type": "text",
+          "material_information": {
+            "text": "Aufgabe 1a — Zeigen Sie die Vornamen und Nachnamen aller weiblichen Kunden, deren Vorname mit 'A' beginnt. (Autor: Prof. Dr. I. M. Saatz & Team, Kurs: Datenbanken 1 - WS 23/24, ID: A1)"
+          }
+        }
+      ],
+      "problem_statement": [
+        {
+          "type": "text",
+          "material_information": {
+            "text": "Zeigen Sie die Vornamen und Nachnamen aller weiblichen Kunden, deren Vorname mit 'A' beginnt."
+          }
+        }
+      ],
+      "db_schema": {
+        "type": "schema",
+        "material_information": {
+          "schema": "",
+          "name": "Buchhandlung"
+        }
+      },
+      "database": {
+        "type": "database",
+        "material_information": {
+          "database": "",
+          "name": "db_A1_a",
+          "dialect": "oracle"
+        }
+      }
+    },
+    "task_solutions": {
+      "query": [
+        {
+          "type": "query",
+          "material_information": {
+            "query": "SELECT Vorname, Nachname FROM Kunde WHERE Anrede = 'Frau' AND Vorname LIKE 'A%';",
+            "dialect": "oracle"
+          }
+        },
+        {
+          "type": "query",
+          "material_information": {
+            "query": "SELECT vorname, nachname FROM kunde WHERE anrede = 'Frau' AND UPPER(vorname) LIKE 'A%';",
+            "dialect": "oracle"
+          }
+        }
+      ]
+    }
+  }
+}

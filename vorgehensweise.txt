@@ -1,0 +1,11 @@
+MongoDB Compass öffnen - auf localhost:27017 klicken und connecten
+
+python -m uvicorn src.main:app --reload
+
+http://127.0.0.1:8000/docs
+
+Aufgabe registrieren
+
+Im MongoDB Compass unbedingt links und rechts refreshen!!!
+
+Über /fetchMaterialFromId jeweilige ID abrufen

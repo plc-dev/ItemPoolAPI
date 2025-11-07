@@ -2,20 +2,23 @@
 
 ## Dev-Setup
 
-1. **Install dependencies**
+1. **Add .env-File**
+   Add a file in the root directory called `.env` and add the content of the `.demo-env`-file. Change the values if required.
+
+2. **Install dependencies**
 
    - [Python Installation Guide](https://wiki.python.org/moin/BeginnersGuide/Download)
    - [uv Installation Guide](https://docs.astral.sh/uv/getting-started/installation/#standalone-installer)
    - [Docker Installation Guide](https://docs.docker.com/engine/install/)
 
-2. **Start mongoDB via Docker**
+3. **Start mongoDB via Docker**
    Start docker daemon if not already started. Then run the following cmd in a shell.
 
    ```bash
    docker-compose up
    ```
 
-3. **Start API**
+4. **Start API**
    Run this cmd in a shell in the project root repository:
    ```bash
    uv run fastapi dev src/main.py

@@ -1,0 +1,15 @@
+services:
+  item_pool_mongodb:
+    image: mongo:latest
+    container_name: ${CI_COMMIT_REF_SLUG}-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PW}
+      MONGO_INITDB_DATABASE: ${MONGO_DB}
+    expose:
+      - 27017
+    volumes:
+      - ./data/mongodb/:/bitnami/mongodb/:rw
+    restart: unless-stopped
+    networks:
+      - default

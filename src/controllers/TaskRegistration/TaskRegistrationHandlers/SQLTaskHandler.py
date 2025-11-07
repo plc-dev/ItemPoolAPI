@@ -39,6 +39,6 @@ class SQLTaskHandler(TaskHandler):
             return {
                 "status": ResponseStatus.error,
                 "result": ResponseResult(message = str(e)),
-                "stimulus_ids": [],
-                "solution_ids": []
+                "stimulus_ids": {},
+                "solution_ids": {}
             }

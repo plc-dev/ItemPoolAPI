@@ -64,13 +64,4 @@ class TaskRegistrationController(Controller):
         
         id = self._dao.store_task(processed_task)
 
-        # Umbau: falls stimulus_ids/solution_ids Listen sind, wrappe sie in Dicts
-        stimulus_ids = processed_task.get("stimulus_ids")
-        solution_ids = processed_task.get("solution_ids")
-
-        if isinstance(stimulus_ids, list):
-            stimulus_ids = {"instruction": stimulus_ids}
-        if isinstance(solution_ids, list):
-            solution_ids = {"query": solution_ids}
-
-        return {**processed_task, "id": id, "stimulus_ids": stimulus_ids,"solution_ids": solution_ids}
+        return {**processed_task, "id": id,}

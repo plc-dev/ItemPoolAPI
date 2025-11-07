@@ -2,3 +2,4 @@ MONGO_USER=admin
 MONGO_PW=VerySecurePassword
 MONGO_DB=ItemPool
 MONGO_PORT=27017
+MONGO_HOST=localhost

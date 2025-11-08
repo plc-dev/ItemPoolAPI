@@ -9,10 +9,10 @@ services:
     expose:
       - ${MONGO_PORT}:27017
     volumes:
-      - mongodata:/bitnami/mongodb/:rw
+      - "mongodata:/bitnami/mongodb/:rw"
     restart: unless-stopped
     networks:
       - default
 
 volumes:
-  - mongodata
+  mongodata:

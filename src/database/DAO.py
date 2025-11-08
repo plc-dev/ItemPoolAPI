@@ -2,6 +2,9 @@ from typing import Dict, Any
 from enum import Enum
 from pymongo import MongoClient, ReturnDocument
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class Collections(Enum):
     TASK_MATERIAL = "materials"

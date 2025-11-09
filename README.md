@@ -35,6 +35,28 @@
 
 TBD
 
+## Debugger (VSCode Example)
+
+Add the following code to the `launch.json` in the .vscode-folder (create if it doesn't exist):
+
+```json
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "api",
+			"type": "debugpy",
+			"request": "launch",
+			"python": ".venv/bin/python",
+			"console": "integratedTerminal",
+			"program": ".venv/bin/fastapi",
+			"args": ["dev", "src/main.py"],
+			"justMyCode": true
+		}
+	]
+}
+```
+
 ## Feature-List
 
 See this [wiki-entry](https://github.com/plc-dev/ItemPoolAPI/wiki/ToDo%E2%80%90List).

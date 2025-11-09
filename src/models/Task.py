@@ -123,6 +123,7 @@ class TextMaterialRegistrationRequestObject(BaseModel):
 class DatabaseDialects(str, Enum):
     postgres = "postgres"
     sqlite = "sqlite"
+    oracle = "oracle"
 
 
 class QueryMetadata(Metadata):

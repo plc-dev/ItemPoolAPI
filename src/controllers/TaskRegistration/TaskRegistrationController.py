@@ -1,5 +1,10 @@
-
-from ...models.Task import TaskType, MaterialType, TaskRegistrationRequestObject, TaskMaterialRegistrationRequestObject, ResponseStatus, TaskMaterial
+from ...models.Task import (
+    TaskType,
+    MaterialType,
+    TaskRegistrationRequestObject,
+    TaskMaterialRegistrationRequestObject,
+    ResponseStatus,
+)
 from ..BaseController import Controller
 from .TaskMaterialRegistrationHandlers.BaseHandler import TaskMaterialHandler
 from .TaskRegistrationHandlers.BaseHandler import TaskHandler
@@ -7,13 +12,13 @@ from .TaskRegistrationHandlers.SQLTaskHandler import SQLTaskHandler
 
 from .TaskMaterialRegistrationHandlers.MaterialHandlers import material_handlers
 
-import logging
 
 class TaskMaterialRegistrationController(Controller):
     """
     This class handles the registration of task-material with the system.
     The handling of new task-materials is supported by adding more material-handlers to the class.
     """
+
     def __init__(self):
         super().__init__()
         self._material_handlers: dict[str, TaskMaterialHandler] = {
@@ -35,19 +40,22 @@ class TaskMaterialRegistrationController(Controller):
         id = self._dao.store_task_material(material)
 
         return id
-    
+
 
 class TaskRegistrationController(Controller):
     """
     This class handles the registration of tasks with the system.
     The handling of new tasks is supported by adding more task-handlers to the class.
     """
+
     def __init__(self):
         super().__init__()
         self._material_registration_controller = TaskMaterialRegistrationController()
 
         self._task_handlers: dict[str, TaskHandler] = {
-            TaskType.sql: SQLTaskHandler(self._dao, self._material_registration_controller)
+            TaskType.sql: SQLTaskHandler(
+                self._dao, self._material_registration_controller
+            )
         }
 
     def _select_task_handler(self, type: TaskType):
@@ -61,7 +69,10 @@ class TaskRegistrationController(Controller):
 
         if processed_task["result"] == ResponseStatus.error:
             return processed_task
-        
+
         id = self._dao.store_task(processed_task)
 
-        return {**processed_task, "id": id}
+        return {
+            **processed_task,
+            "id": id,
+        }

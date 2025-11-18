@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .routers import TaskRegistration, TaskRetrieval, TaskCollection
+from .controllers import TaskRegistration, TaskRetrieval, TaskCollection
 
 app = FastAPI()
 

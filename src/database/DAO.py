@@ -2,7 +2,7 @@ from typing import Any, List
 from enum import Enum
 from pymongo import MongoClient, ReturnDocument
 import os
-from ..models.Task import Task
+from ..models.Tasks.BaseTask import Task
 from dotenv import load_dotenv
 
 load_dotenv()
